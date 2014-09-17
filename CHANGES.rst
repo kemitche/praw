@@ -21,6 +21,9 @@ formatted links that link to the relevant place in the code overview.
 
 .. begin_changelog_body
 
+PRAW 3.0B (Unreleased)
+----------------------
+ * **[CHANGE]** All requests should now be through HTTPS.
 
 Unreleased
 ----------
