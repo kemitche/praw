@@ -24,6 +24,7 @@ formatted links that link to the relevant place in the code overview.
 PRAW 3.0B (Unreleased)
 ----------------------
  * **[CHANGE]** All requests should now be through HTTPS.
+ * **[CHANGE]** All previously deprecated methods have been removed.
 
 Unreleased
 ----------

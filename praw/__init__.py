@@ -697,12 +697,6 @@ class UnauthenticatedReddit(BaseReddit):
             data.update(captcha)
         return self.request_json(self.config['register'], data=data)
 
-    @decorators.deprecated(msg="Please use `get_comments(\'all\', ...)` "
-                               "instead.")
-    def get_all_comments(self, *args, **kwargs):
-        """Return a get_content generator for comments from all subreddits."""
-        return self.get_comments('all', *args, **kwargs)
-
     @decorators.restrict_access(scope='read')
     def get_comments(self, subreddit, gilded_only=False, *args, **kwargs):
         """Return a get_content generator for comments in the given subreddit.
@@ -878,11 +872,6 @@ class UnauthenticatedReddit(BaseReddit):
         """
         url = self.config['new_subreddits']
         return self.get_content(url, *args, **kwargs)
-
-    @decorators.deprecated(msg="Please use `get_popular_subreddits` instead.")
-    def get_popular_reddits(self, *args, **kwargs):
-        """Return a get_content generator for the most active subreddits."""
-        return self.get_popular_subreddits(*args, **kwargs)
 
     def get_popular_subreddits(self, *args, **kwargs):
         """Return a get_content generator for the most active subreddits.
@@ -1989,11 +1978,6 @@ class MySubredditsMixin(AuthenticatedReddit):
         url = self.config['my_multis']
         response = self.request_json(url)
         return response
-
-    @decorators.deprecated(msg="Please use `get_my_subreddits` instead.")
-    def get_my_reddits(self, *args, **kwargs):
-        """Return a get_content generator of subreddits."""
-        return self.get_my_subreddits(*args, **kwargs)
 
     @decorators.restrict_access(scope='mysubreddits')
     def get_my_subreddits(self, *args, **kwargs):
