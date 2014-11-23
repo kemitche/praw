@@ -412,9 +412,10 @@ class BasicTest(unittest.TestCase, BasicHelper):
     def test_store_lazy_json_result(self):
         self.r.config.store_json_result = True
         subreddit = self.r.get_subreddit(self.sr)
+        self.assertFalse(subreddit.json_dict)
         # Force object to load
-        subreddit.title
-        self.assertEqual(subreddit.json_dict['display_name'], self.sr)
+        subreddit.display_name
+        self.assertTrue(subreddit.json_dict)
 
 
 class SearchTest(unittest.TestCase, BasicHelper):
@@ -1896,6 +1897,22 @@ class SubredditTest(unittest.TestCase, AuthenticatedHelper):
 
     def test_attribute_error(self):
         self.assertRaises(AttributeError, getattr, self.subreddit, 'foo')
+
+    def test_display_name_lazy_update(self):
+        augmented_name = self.sr.upper()
+        subreddit = self.r.get_subreddit(augmented_name)
+        self.assertEqual(augmented_name, text_type(subreddit))
+        self.assertNotEqual(augmented_name, subreddit.display_name)
+        self.assertEqual(self.sr, subreddit.display_name)
+        self.assertEqual(subreddit.display_name, text_type(subreddit))
+
+    def test_display_name_refresh(self):
+        augmented_name = self.sr.upper()
+        subreddit = self.r.get_subreddit(augmented_name)
+        self.assertEqual(augmented_name, text_type(subreddit))
+        subreddit.refresh()
+        self.assertEqual(self.sr, subreddit.display_name)
+        self.assertEqual(subreddit.display_name, text_type(subreddit))
 
     def test_get_contributors_private(self):
         self.r.login(self.other_non_mod_name, self.other_non_mod_pswd)
