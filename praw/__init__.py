@@ -181,6 +181,7 @@ class Config(object):  # pylint: disable-msg=R0903, R0924
                  'wiki_pages':          'r/%s/wiki/pages/',
                  'wiki_banned':         'r/%s/about/wikibanned/',
                  'wiki_contributors':   'r/%s/about/wikicontributors/'}
+    WWW_PATHS = set(['authorize'])
 
     def __init__(self, site_name, **kwargs):
         """Initialize PRAW's configuration."""
@@ -242,7 +243,8 @@ class Config(object):  # pylint: disable-msg=R0903, R0924
 
     def __getitem__(self, key):
         """Return the URL for key."""
-        return urljoin(self.api_url, self.API_PATHS[key])
+        prefix = self.permalink_url if key in self.WWW_PATHS else self.api_url
+        return urljoin(prefix, self.API_PATHS[key])
 
     @property
     def short_domain(self):
@@ -653,7 +655,7 @@ class OAuth2Reddit(BaseReddit):
         This function need only be called if your praw.ini site configuration
         does not already contain the necessary information.
 
-        Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+        Go to https://www.reddit.com/prefs/apps/ to discover the appropriate
         values for your application.
 
         :param client_id: the client_id of your application
